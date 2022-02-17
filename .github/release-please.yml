@@ -2,4 +2,9 @@ primaryBranch: main
 releaseType: ruby
 handleGHRelease: true
 changelogType: github
-versionFile: app/version.rb
+branches:
+  - branch: production
+    releaseType: ruby
+    handleGHRelease: true
+    changelogType: github
+    versionFile: app/version.rb
