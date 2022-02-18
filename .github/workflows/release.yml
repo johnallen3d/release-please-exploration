@@ -9,8 +9,12 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && github.head_ref == 'release-please--branches--main'
     steps:
-    - name: Release Mock
+    - name: Dump GitHub context
+      run: echo '${{ toJSON(github) }}'
+    - name: Dump env
       run: env
+    - name: Release Mock
+      if: github.event.pull_request.merged == true && github.head_ref == 'release-please--branches--main'
+      run: echo 'release would run now!'
 
