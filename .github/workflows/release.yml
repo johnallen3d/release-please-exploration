@@ -3,7 +3,7 @@ name: Release
 on:
   pull_request:
     branches:
-      - release-please--branches--main
+      - main
     types: [closed]
 
 jobs:
@@ -12,6 +12,4 @@ jobs:
     if: github.event.pull_request.merged == true
     steps:
     - name: Release Mock
-      run: |
-        # use "failure" to indicate that this ran
-        exit 1
+      run: env
