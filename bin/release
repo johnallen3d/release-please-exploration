@@ -1,0 +1,66 @@
+#! /usr/bin/env bash
+
+set -e
+set -x
+
+[ -z "${DEPLOY_ENV}" ] && exit 1
+[ -z "${HEROKU_API_KEY}" ] && exit 1
+
+DOCKER_IMAGE_NAME="johnallen3d/hello-world:latest"
+HEROKU_APP_NAME="release-please-${DEPLOY_ENV}"
+HEROKU_IMAGE_NAME="registry.heroku.com/${HEROKU_APP_NAME}/web"
+
+# log into Heroku Docker registry
+docker login --username=_ --password="${HEROKU_API_KEY}" registry.heroku.com
+
+# tag "latest" version of app image to match Heroku registry name for app by env
+#   for example:
+#     johnallen3d/hello-world:latest -> registry.heroku.com/release-please-stage/web
+#     johnallen3d/hello-world:latest -> registry.heroku.com/release-please-prod/web
+docker tag $DOCKER_IMAGE_NAME $HEROKU_IMAGE_NAME
+
+# push tagged image to Heroku Docker registry
+docker push $HEROKU_IMAGE_NAME
+
+# grab image id for release step
+HEROKU_IMAGE_ID=$(docker inspect $HEROKU_IMAGE_NAME --format={{.Id}})
+
+echo "------------------------------------------"
+echo "Heroku App Name   : $HEROKU_APP_NAME"
+echo "Heroku Image Name : $HEROKU_IMAGE_NAME"
+echo "Image ID          : $HEROKU_IMAGE_ID"
+echo "------------------------------------------"
+
+# releaes the image to that app
+CURL_RESPONSE=$(
+  curl https://api.heroku.com/apps/$HEROKU_APP_NAME/formation \
+    --write-out "HTTPSTATUS:%{http_code}" \
+    -X PATCH \
+    -d "
+      {
+        \"updates\": [
+          {
+            \"type\": \"web\",
+            \"docker_image\": \"${HEROKU_IMAGE_ID}\"
+          }
+        ]
+      }
+    " \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/vnd.heroku+json; version=3.docker-releases" \
+    -H "Authorization: Bearer $HEROKU_API_KEY"
+)
+
+# Check for successful deployment
+CURL_BODY=$(echo "$CURL_RESPONSE" | sed -E 's/HTTPSTATUS\:[0-9]{3}$//')
+CURL_STATUS=$(echo "$CURL_RESPONSE" | tr -d '\n' | sed -E 's/.*HTTPSTATUS:([0-9]{3})$/\1/')
+
+echo "$CURL_BODY"
+
+if [ "$CURL_STATUS" -eq "200" ]; then
+  echo "Deployment successful."
+else
+  echo "Deployment returned an error status."
+  echo "HTTP Code: $CURL_STATUS"
+  exit 1
+fi

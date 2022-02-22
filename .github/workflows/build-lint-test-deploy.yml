@@ -1,4 +1,3 @@
-
 name: Lint, Test and Release
 
 on:
@@ -37,3 +36,10 @@ jobs:
       with:
         push: true
         tags: johnallen3d/hello-world:latest
+
+    - name: Deploy to Staging
+      if: github.ref_name == 'main'
+      run: ./bin/release stage
+      env:
+        DEPLOY_ENV: stage
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
