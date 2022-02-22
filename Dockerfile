@@ -9,4 +9,4 @@ WORKDIR $WORKING_DIRECTORY
 
 COPY index.html $WORKING_DIRECTORY/
 
-CMD ["ruby", "-run", "-e", "httpd", ".", "-p", "8000"]
+CMD ruby -run -e httpd . -p $PORT
