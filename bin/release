@@ -10,6 +10,11 @@ DOCKER_IMAGE_NAME="johnallen3d/hello-world:latest"
 HEROKU_APP_NAME="release-please-${DEPLOY_ENV}"
 HEROKU_IMAGE_NAME="registry.heroku.com/${HEROKU_APP_NAME}/web"
 
+# pull image from Docker Hub
+#   - useful for production deployments which should not be rebuilt (promote
+#     staging artifact)
+docker pull $DOCKER_IMAGE_NAME
+
 # log into Heroku Docker registry
 docker login --username=_ --password="${HEROKU_API_KEY}" registry.heroku.com
 
