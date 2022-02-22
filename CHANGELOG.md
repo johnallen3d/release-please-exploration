@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.4.1](https://github.com/johnallen3d/release-please-exploration/compare/v1.4.0...v1.4.1) (2022-02-22)
+
+
+### Bug Fixes
+
+* deploy to production ([8509454](https://github.com/johnallen3d/release-please-exploration/commit/850945407d09bfa67bcfb62bdae53e41ee5b828c))
+
 ## [1.4.0](https://github.com/johnallen3d/release-please-exploration/compare/v1.3.0...v1.4.0) (2022-02-22)
 
 
