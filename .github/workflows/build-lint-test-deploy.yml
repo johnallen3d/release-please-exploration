@@ -39,7 +39,7 @@ jobs:
 
     - name: Deploy to Staging
       if: github.ref_name == 'main'
-      run: ./bin/release stage
+      run: ./bin/release
       env:
         DEPLOY_ENV: stage
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
