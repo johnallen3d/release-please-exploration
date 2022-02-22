@@ -1,0 +1,39 @@
+
+name: Lint, Test and Release
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build-lint-test-release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup
+      run: exit 0
+
+    - name: Lint
+      run: exit 0
+
+    - name: Test
+      run: exit 0
+
+    - name: Login to Docker Hub
+      if: github.ref_name == 'master'
+      uses: docker/login-action@v1
+      with:
+        username: johnallen3d
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push
+      if: github.ref_name == 'master'
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: johnallen3d/hello-world:latest
