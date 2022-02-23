@@ -1,0 +1,33 @@
+name: Tag Release Image
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      # - name: Checkout
+      #   uses: actions/checkout@v2
+
+      - name: Dump GitHub context
+        run: echo '${{ github.ref_name }}'
+
+      - name: Dump GitHub context
+        run: echo '${{ toJSON(github) }}'
+
+      # - name: Login to DockerHub
+      #   uses: docker/login-action@v1
+      #   with:
+      #     username: johnallen3d
+      #     password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # - name: Tag `latest` with Current Version
+      #   run: |
+      #     image_name=johnallen3d/hello-world
+
+      #     docker pull $image_name:latest
+      #     docker tag $image_name:latest $image_name:{{version}}
+
