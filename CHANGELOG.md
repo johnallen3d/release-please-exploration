@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.5.1](https://github.com/johnallen3d/release-please-exploration/compare/v1.5.0...v1.5.1) (2022-02-23)
+
+
+### Bug Fixes
+
+* **build:** push Docker tag via deployment workflow ([443726b](https://github.com/johnallen3d/release-please-exploration/commit/443726be26a4d85ab89dab70a957abf948fff149))
+
 ## [1.5.0](https://github.com/johnallen3d/release-please-exploration/compare/v1.4.1...v1.5.0) (2022-02-23)
 
 
