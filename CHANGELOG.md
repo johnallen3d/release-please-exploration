@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/johnallen3d/release-please-exploration/compare/v1.4.1...v1.5.0) (2022-02-23)
+
+
+### Features
+
+* **build:** tag/push production image to registry ([722db3c](https://github.com/johnallen3d/release-please-exploration/commit/722db3c36b5d569ebdc562c9875fd97fa5b89574))
+
 ### [1.4.1](https://github.com/johnallen3d/release-please-exploration/compare/v1.4.0...v1.4.1) (2022-02-22)
 
 
